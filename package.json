@@ -1,0 +1,24 @@
+{
+  "name": "annotate-backend",
+  "version": "1.0.0",
+  "description": "Backend services for annotation app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexandru11/backend-anno.git"
+  },
+  "author": "Alexandru-Sorin Radu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexandru11/backend-anno/issues"
+  },
+  "homepage": "https://github.com/Alexandru11/backend-anno#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.13"
+  }
+}

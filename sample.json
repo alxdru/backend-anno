@@ -1,0 +1,20 @@
+{
+    "parameter": {
+        "values": {
+            "parameters": {
+                "labels": [{
+                    "name": "T_ORG",
+                    "display_name": "Organization"
+                }, {
+                    "name": "T_LOC",
+                    "display_name": "Location"
+                }, {
+                    "name": "T_PERS",
+                    "display_name": "Person"
+                }],
+                "text": "This is task where you need to label text that is Organization, Location, Person..."
+            },
+            "_id": "60bfa444b3dce54f1055b490"
+        }
+    }
+}
