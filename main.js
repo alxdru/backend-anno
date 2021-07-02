@@ -1,4 +1,9 @@
 const express = require('express');
+
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const { apiInit, dbConnect } = require('./src/api/api');
 
 function start() {
