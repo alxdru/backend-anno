@@ -1,12 +1,17 @@
 const TaskModel = require('../model/taskModel');
+const AnnotationModel = require('../model/annotationModel');
 const { APIError } = require('../../util/ApiError');
 const { ObjectId } = require('mongodb')
 
 class TaskController {
 
     // Get all tasks available
-    listAll(req, res, next) {
-        TaskModel.find({}, 'createdAt description maxUsers type', (err, tasks) => {
+    async listAll(req, res, next) {
+        const { userId } = req.params;
+        const annotations = await AnnotationModel.find({ "user.id": userId }).exec();
+        const taskIds = annotations.map(annotation => annotation.taskId);
+
+        TaskModel.find({_id: {$nin: taskIds}}, 'createdAt description maxUsers type', (err, tasks) => {
             if (err) next(new APIError(error));
 
             res.json({

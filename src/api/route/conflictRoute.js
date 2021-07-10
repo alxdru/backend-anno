@@ -3,6 +3,6 @@ const { ConflictController } = require('../controller/conflictController');
 
 const conflictController = new ConflictController();
 
-router.get('', conflictController.listAll);
+router.get('/:userId', conflictController.listAll);
 
 module.exports = router;

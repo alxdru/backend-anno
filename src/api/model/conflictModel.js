@@ -2,9 +2,14 @@ var mongoose = require('mongoose');
 
 // Setup schema
 var conflictSchema = mongoose.Schema({
-    conflictedUser: String,
+    conflictedUser: {
+        id: String,
+        name: String,
+        email: String
+    },
     annotationId: String,
     taskId: String,
+    taskText: String,
     conflictedProperties: [
         {
             conflictedEntity: String,

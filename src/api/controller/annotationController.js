@@ -7,9 +7,21 @@ class AnnotationController {
     // Create new annotation
     async create(req, res, next) {
         const annotation = new AnnotationModel();
-        const { userId, taskId, annotationProperties } = req.body;
-        annotation.userId = userId
+        const { 
+            userId, 
+            userName, 
+            userEmail, 
+            taskId, 
+            taskText, 
+            annotationProperties 
+        } = req.body;
+        annotation.user = {
+            id: userId,
+            name: userName,
+            email: userEmail
+        };
         annotation.taskId = taskId;
+        annotation.taskText = taskText;
         annotation.annotationProperties = annotationProperties;
 
         const exists = await AnnotationModel.findOne({ userId, taskId }).exec();
@@ -52,7 +64,29 @@ class AnnotationController {
         } else {
             next(new APIError("Please specify a valid ObjectID."));
         }
+    }
 
+    async update(req, res, next) {
+        const { id } = req.params
+        const { annotationProperties } = req.body;
+
+        if (ObjectId.isValid(id)) {
+            const annotation = await AnnotationModel.findById(id).exec();
+            if (annotation) {
+                annotation.annotationProperties = annotationProperties;
+                annotation.save()
+                          .then((updatedAnnotation) => {
+                            res.json({    
+                                message: 'Annotation has been updated successfully!',
+                                values: updatedAnnotation
+                            });
+                        });
+            } else {
+                next(new APIError(`Annotation was not found with given id!`));
+            }
+        } else {
+            next(new APIError("Please specify a valid ObjectID."));
+        }
     }
 
 }

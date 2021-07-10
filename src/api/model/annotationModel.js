@@ -2,8 +2,13 @@ var mongoose = require('mongoose');
 
 // Setup schema
 var annotationSchema = mongoose.Schema({
-    userId: String,
+    user: {
+        id: String,
+        name: String,
+        email: String
+    },
     taskId: String,
+    taskText: String,
     annotationProperties: [
         {
             labels: [ String ],

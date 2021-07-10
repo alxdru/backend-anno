@@ -4,17 +4,20 @@ const { APIError } = require('../../util/ApiError');
 const { ObjectId } = require('mongodb')
 
 class ConflictController {
-
+    /** 
+     * Can be optimized with indexes for each entity in annotation
+     * TBH this is not the scope atm
+     */
     // Get all conflicts found
     async listAll(req, res, next) {
 
-        const { userId } = req.body;
+        const { userId } = req.params;
 
         // Get user's annotations which conflict
-        const annotations = await AnnotationModel.find({ userId }).exec();
+        const annotations = await AnnotationModel.find({ "user.id": userId }).exec();
         const taskIds = annotations.map(annotation => annotation.taskId);
 
-        const possibleConflicts = await AnnotationModel.find({ taskId: {$in: taskIds}, userId: {$ne: userId} }).exec();
+        const possibleConflicts = await AnnotationModel.find({ taskId: {$in: taskIds}, "user.id": {$ne: userId} }).exec();
 
         const conflicts = possibleConflicts.map(item => {
             const annotationToCheck = annotations.find(a => a.taskId === item.taskId);
@@ -38,25 +41,33 @@ class ConflictController {
                 } 
             });
 
-            if (values) {
+            if (values.filterNulls().length) {
                 const newConflict = new ConflictModel();
                 
-                newConflict.conflictedUser = item.userId;
+                newConflict.conflictedUser = {
+                    name: item.user.name,
+                    id: item.user.id,
+                    email: item.user.email
+                };
                 newConflict.annotationId = annotationToCheck._id;
                 newConflict.taskId = item.taskId;
+                newConflict.taskText = item.taskText;
                 newConflict.conflictedProperties = values.filter(v => v);
 
                 return newConflict;
             }
 
         });
-
-        if (!conflicts) res.json({
-            values: []
-        });
-        res.json({
-            values: conflicts
-        });
+        const filteredConflicts = conflicts.filterNulls();
+        if (!filteredConflicts.length) {
+            res.json({
+                values: []
+            });
+        } else {
+            res.json({
+                values: filteredConflicts
+            });
+        }
     }
 
 }

@@ -1,6 +1,6 @@
-GET http://localhost:4003/conflict HTTP/1.1
+GET http://localhost:4003/conflict/auth0%7C60e485956c9def00704d7aa7 HTTP/1.1
 content-type: application/json
 
-{
-    "userId": "sampleUser6"
-}
+###
+
+GET https://jsonplaceholder.typicode.com/users

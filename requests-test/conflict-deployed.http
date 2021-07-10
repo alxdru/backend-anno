@@ -1,6 +1,2 @@
-GET annotate-backend.cfapps.eu10.hana.ondemand.com/conflict HTTP/1.1
+GET annotate-backend.cfapps.eu10.hana.ondemand.com/conflict/auth0%7C60e485956c9def00704d7aa7 HTTP/1.1
 content-type: application/json
-
-{
-    "userId": "sampleUser6"
-}

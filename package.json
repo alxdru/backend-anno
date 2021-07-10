@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
-    "start-locally": "nodemon main.js"
+    "start-locally": "nodemon main.js",
+    "debug": "node --inspect main.js"
   },
   "repository": {
     "type": "git",
