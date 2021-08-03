@@ -6,6 +6,7 @@ const _ = require('../util/utilities');
 const taskRoutes = require('./route/taskRoute');
 const annotationRoutes = require('./route/annotationRoute');
 const conflictRoutes = require('./route/conflictRoute');
+const statisticRoutes = require('./route/statisticRoute');
 
 const { headerMiddleware } = require('./middleware/routeHeaders');
 
@@ -34,6 +35,7 @@ function apiInit() {
     app.use('/task', taskRoutes);
     app.use('/annotation', annotationRoutes);
     app.use('/conflict', conflictRoutes);
+    app.use('/statistics', statisticRoutes);
 
     const server = app.listen(port, () => {
         console.log(`Api services started! Server listening on port:${port}.`);

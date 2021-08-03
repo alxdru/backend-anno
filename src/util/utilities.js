@@ -5,3 +5,7 @@ Array.prototype.isNull = function (){
 Array.prototype.filterNulls = function (){
     return this.filter((el) => el != null);
 };
+
+String.prototype.removeIllegalChars = function (){
+    return this.replace(/[/\\?%*:|"<>]/g, '-');
+}

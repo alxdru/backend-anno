@@ -11,7 +11,7 @@ module.exports.headerMiddleware = function (req, res, next) {
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     
         // Request headers you wish to allow
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,content-disposition');
     }
 
     // Pass to next layer of middleware

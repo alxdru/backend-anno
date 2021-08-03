@@ -103,3 +103,8 @@ content-type: application/json
         }
     ]
 }
+
+###
+
+GET http://localhost:4003/annotation/list/google-oauth2|100297216533613725464 HTTP/1.1
+content-type: application/json

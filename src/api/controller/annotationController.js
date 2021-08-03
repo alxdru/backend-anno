@@ -2,6 +2,8 @@ const AnnotationModel = require('../model/annotationModel');
 const TaskModel = require('../model/taskModel');
 const { APIError } = require('../../util/ApiError');
 const { ObjectId } = require('mongodb')
+const fs = require('fs');
+const path = require('path');
 
 class AnnotationController {
     // Create new annotation
@@ -64,6 +66,34 @@ class AnnotationController {
         } else {
             next(new APIError("Please specify a valid ObjectID."));
         }
+    }
+    
+    async getFile(req, res, next) {
+        const { userId } = req.params
+        const fileName = `${userId.removeIllegalChars()}.json`;
+        const jsonPath = path.join(__dirname, '..', 'files', fileName);
+
+        // Prepare file and store it
+        const annotations = await AnnotationModel.find({ "user.id": userId }).exec();
+
+        const stringified = JSON.stringify({ values: annotations});
+        fs.writeFile(jsonPath, stringified, 'utf8', (err) => {
+            if (err) next(new APIError(`Error while processing annotations file: ${err}`));
+            // file saved so offer file for download
+            res.download(jsonPath, fileName, (error) => {
+                if (error) next(new APIError(`Cannot download this file because: ${err}`));
+            })
+        });
+    }
+
+    async findAllByUser(req, res, next) {
+        const { userId } = req.params
+
+        const annotations = await AnnotationModel.find({ "user.id": userId }).exec();
+
+        res.json({
+            values: annotations
+        });
     }
 
     async update(req, res, next) {
